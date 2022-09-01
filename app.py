@@ -5,6 +5,7 @@ import numpy as np
 import json
 
 app = Dash(__name__)
+server=app.server
 
 app.layout = html.Div([
     html.H4('Priority Places'),
