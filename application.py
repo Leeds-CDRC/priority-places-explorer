@@ -37,13 +37,12 @@ def display_choropleth(domain):
                         height=600, 
                         color_continuous_scale='viridis', 
                         center={'lat': 53.8067, 'lon': -1.5550})
-
     fig.update_layout(mapbox_style='open-street-map')
     fig.update_layout(margin={'r':0, 't':0, 'l':0, 'b':0})
     fig.update_geos(fitbounds="locations", visible=True)
     return fig
 
-
-app.run(host='0.0.0.0',
-        port='56177',
-        debug=True)
+if __name__=="__main__":
+    app.run(host='0.0.0.0',
+            port='56177',
+            debug=True)
