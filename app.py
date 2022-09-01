@@ -4,10 +4,11 @@ import pandas as pd
 import numpy as np
 import json
 
-app = Dash(__name__)
-server=app.server
+dash_app = dash.Dash()
+app = dash_app.server
 
-app.layout = html.Div([
+
+dash_app.layout = html.Div([
     html.H4('Priority Places'),
     html.P("Select a domain:"),
     dcc.RadioItems(
@@ -19,7 +20,7 @@ app.layout = html.Div([
     dcc.Graph(id="graph"),
 ])
 
-@app.callback(
+@dash_app.callback(
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
@@ -44,6 +45,4 @@ def display_choropleth(domain):
     return fig
 
 if __name__=="__main__":
-    app.run(host='0.0.0.0',
-            port='8000',
-            debug=True)
+    dash_app.run_server(debug=True)
