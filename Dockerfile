@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 ADD . /app/
 
 ENTRYPOINT [ "python" ]
-CMD ["application.py"]
+CMD [ "gunicorn", "--workers=5", "--threads=1", "-b 0.0.0.0:8000", "app:server"]
