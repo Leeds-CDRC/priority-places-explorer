@@ -12,8 +12,14 @@ app.layout = html.Div([
     html.P("Select a domain:"),
     dcc.RadioItems(
         id='domain', 
-        options=["Combined", "Proximity to non-supermarkets"],
-        value="Combined",
+        options=['domain_supermarket_proximity', 
+                 'domain_supermarket_transport',
+                 'domain_ecommerce_access', 
+                 'domain_socio_demographic',
+                 'domain_nonsupermarket_proximity', 
+                 'domain_food_for_families',
+                 'domain_fuel_poverty'],
+        value="domain_supermarket_proximity",
         inline=True
     ),
     dcc.Graph(id="graph"),
@@ -23,20 +29,17 @@ app.layout = html.Div([
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
-    df = pd.read_csv('/data/Retailers - other_1km_count.csv')
-    lsoa_centroids = pd.read_csv('data/Lower_layer_Super_Output_Areas_(December_2011)_Population_Weighted_Centroids_WGS.csv')
-    df_joined = df.merge(lsoa_centroids, left_on='lsoa11cd', right_on='lsoa11cd')
-    df_joined['logFHRSID'] = np.log10(1+df_joined['FHRSID'])
+    df = pd.read_csv('/data/priority_places_v0_1_ranked_domains_WGS.csv')
     fig = px.scatter_mapbox(
-                        df_joined, 
+                        df, 
                         lat='latitude',
                         lon='longitude', 
-                        color='logFHRSID', 
-                        hover_name='lsoa11cd', 
-                        hover_data=['lsoa11nm', 'FHRSID'],
-                        range_color=[0,2.5], 
+                        color=domain, 
+                        hover_name='geo_code', 
+                        hover_data=['geo_code', domain],
+                        range_color=[0,41728], 
                         height=600, 
-                        color_continuous_scale='viridis', 
+                        color_continuous_scale='RdPu', 
                         center={'lat': 53.8067, 'lon': -1.5550})
     fig.update_layout(mapbox_style='open-street-map')
     fig.update_layout(margin={'r':0, 't':0, 'l':0, 'b':0})
