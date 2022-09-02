@@ -22,7 +22,7 @@ app.layout = html.Div([
         value="domain_supermarket_proximity",
         inline=True
     ),
-    dcc.Graph(id="graph"),
+    dcc.Graph(id="graph", style={'width': '95vw', 'height': '90vh'}),
 ])
 
 @app.callback(
@@ -38,7 +38,6 @@ def display_choropleth(domain):
                         hover_name='geo_code', 
                         hover_data=['geo_code', domain],
                         range_color=[0,41728], 
-                        height=600, 
                         color_continuous_scale='RdPu', 
                         center={'lat': 53.8067, 'lon': -1.5550})
     fig.update_layout(mapbox_style='open-street-map')
