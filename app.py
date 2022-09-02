@@ -29,7 +29,7 @@ app.layout = html.Div([
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
-    df = pd.read_csv('/data/priority_places_v0_1_ranked_domains_WGS.csv')
+    df = pd.read_csv('/data/priority_places_v0_1_decile_domains_WGS.csv')
     fig = px.scatter_mapbox(
                         df, 
                         lat='latitude',
@@ -37,8 +37,8 @@ def display_choropleth(domain):
                         color=domain, 
                         hover_name='geo_code', 
                         hover_data=['geo_code', domain],
-                        range_color=[0,41728], 
-                        color_continuous_scale='RdPu', 
+                        range_color=[0,10], 
+                        color_continuous_scale='RdPu_r', 
                         center={'lat': 53.8067, 'lon': -1.5550})
     fig.update_layout(mapbox_style='open-street-map')
     fig.update_layout(margin={'r':0, 't':0, 'l':0, 'b':0})
