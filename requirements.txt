@@ -79,3 +79,4 @@ websocket-client==0.58.0
 Werkzeug==2.0.3
 wheel==0.37.1
 widgetsnbextension==3.5.2
+gunicorn==20.1.0
