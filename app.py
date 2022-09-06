@@ -18,7 +18,7 @@ app.layout = html.Div(style={
     #html.P("Select a domain:"),
     dcc.Dropdown(
         id='domain', 
-        options=[{"label": "Combined Priority Places Index", "value": "combined"}
+        options=[{"label": "Combined Priority Places Index", "value": "combined"},
                  {"label": "Proximity to supermarket food retail facilities", "value": "domain_supermarket_proximity"}, 
                  {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
                  {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
