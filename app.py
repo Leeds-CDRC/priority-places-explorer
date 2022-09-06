@@ -18,14 +18,15 @@ app.layout = html.Div(style={
     #html.P("Select a domain:"),
     dcc.Dropdown(
         id='domain', 
-        options=[{"label": "Proximity to supermarket food retail facilities", "value": "domain_supermarket_proximity"}, 
+        options=[{"label": "Combined Priority Places Index", "value": "combined"}
+                 {"label": "Proximity to supermarket food retail facilities", "value": "domain_supermarket_proximity"}, 
                  {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
                  {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
                  {"label": "Socio-demographic barriers", "value": "domain_socio_demographic"}, 
                  {"label": "Proximity to non-supermarket food retail facilities", "value": "domain_nonsupermarket_proximity"},
                  {"label": "Food support for families", "value": "domain_food_for_families"}, 
                  {"label": "Fuel poverty", "value": "domain_fuel_poverty"}],
-        value='domain_supermarket_proximity',
+        value='combined',
         multi=False,
         #style={'width': "100%"}
     ),
@@ -48,7 +49,8 @@ def display_choropleth(domain):
                             'domain_socio_demographic':'category',
                             'domain_nonsupermarket_proximity':'category',
                             'domain_food_for_families':'category',
-                            'domain_fuel_poverty':'category'}
+                            'domain_fuel_poverty':'category', 
+                            'combined': 'category'}
     )
     colormap = ['#fff7f3', '#fde3df', '#fccbc6', '#fbacb9', '#f880aa', '#eb519d', '#cd238f', '#a2017c', '#750176', '#49006a']
     colormap.reverse()
