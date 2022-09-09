@@ -6,6 +6,7 @@ import numpy as np
 import json
 
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.title = "Priority Places"
 server = app.server
 
 app.layout = html.Div(style={
@@ -39,13 +40,13 @@ app.layout = html.Div(style={
 
         html.Div(id='col1', children=[
             html.H5('How to use'), 
-            html.P("""The CDRC Priority Places Index is a composite index formed of data compiled across seven different dimensions relating to food insecurity for England, Scotland and Wales. 
-                      It's goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy and sustainable sources of food."""),
+            html.P("""The CDRC Priority Places Index is a composite index formed of data compiled across seven different dimensions relating to food insecurity for England, Scotland, and Wales. 
+                      Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food."""),
             html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales and Data Zones in Scotland (2011 boundaries). Each point on the map corresponds to a geographic area. 
-                      Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings a part of and not the building or residence itself."""),
+                      Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings are a part of and not the building or residence itself."""),
             html.P("""
-                      The map displays deciles of the composite index so that each color reflects a different 10% increment of the ranked neighbourhoods in relation to the index. That is, those neighbourhoods marked with decile 1 are in the top 10% of priority places according to the ranked index. 
-                      The map defaults to the composite Prioriy Places Index but each domain used to form the index can be explored via the drop down menu. Hovering over a point also provides the decile scores for each domain. 
+                      The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index. 
+                      The map defaults to the composite Priority Places Index but each domain used to form the index can be explored via the drop down menu. Hovering over a point also provides the decile scores for each domain. 
                       The data can be filtered by double-clicking on each legend point. For example, the highest priority neighbourhoods can be viewed by double-clicking the icon for the 1st decile in the legend.
                   """),
             html.H5('Domain Definitions'), 
@@ -149,11 +150,11 @@ def display_choropleth(domain):
     fig.update_traces(hovertemplate=(
                         '<b>Geo Code</b>: %{customdata[0]}<br>'+\
                         'Priority Places Index decile: %{customdata[8]}<br>'+\
-                        'Proximity to supermarket food retail facilities decile: %{customdata[1]}<br>'+\
+                        'Proximity to supermarket retail facilities decile: %{customdata[1]}<br>'+\
                         'Accessibility to supermarket retail facilties decile: %{customdata[2]}<br>'+\
                         'Access to online deliveries decile: %{customdata[3]}<br>'+\
                         'Socio-demographic barriers decile: %{customdata[4]}<br>'+\
-                        'Proximity to non-supermarket food retail facilities decile: %{customdata[5]}<br>'+\
+                        'Proximity to non-supermarket food provision decile: %{customdata[5]}<br>'+\
                         'Food support for families decile: %{customdata[6]}<br>'+\
                         'Fuel poverty decile: %{customdata[7]}<br>'))
     fig.update_geos(fitbounds="locations", visible=True)
