@@ -97,7 +97,7 @@ app.layout = html.Div(style={
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
-    df = pd.read_csv('/data/priority_places_v0_4_decile_domains_WGS.csv',
+    df = pd.read_csv('/data/priority_places_v1_0_decile_domains_WGS.csv',
                      dtype={'domain_supermarket_proximity':'category',
                             'domain_supermarket_transport':'category',
                             'domain_ecommerce_access':'category',
