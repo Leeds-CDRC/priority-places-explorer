@@ -5,6 +5,29 @@ import pandas as pd
 import numpy as np
 import json
 
+df = pd.read_csv('/data/priority_places_v1_1_decile_domains_WGS.csv',
+                    dtype={'domain_supermarket_proximity':'category',
+                        'domain_supermarket_transport':'category',
+                        'domain_ecommerce_access':'category',
+                        'domain_socio_demographic':'category',
+                        'domain_nonsupermarket_proximity':'category',
+                        'domain_food_for_families':'category',
+                        'domain_fuel_poverty':'category', 
+                        'combined': 'category'}
+)
+
+
+colormap = ['#0d0887',
+            '#41049d',
+            '#6a00a8',
+            '#8f0da4',
+            '#b12a90',
+            '#cc4778',
+            '#e16462',
+            '#f2844b',
+            '#fca636',
+            '#fcce25']
+
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Priority Places"
 server = app.server
@@ -97,27 +120,6 @@ app.layout = html.Div(style={
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
-    df = pd.read_csv('/data/priority_places_v1_1_decile_domains_WGS.csv',
-                     dtype={'domain_supermarket_proximity':'category',
-                            'domain_supermarket_transport':'category',
-                            'domain_ecommerce_access':'category',
-                            'domain_socio_demographic':'category',
-                            'domain_nonsupermarket_proximity':'category',
-                            'domain_food_for_families':'category',
-                            'domain_fuel_poverty':'category', 
-                            'combined': 'category'}
-    )
-    colormap = ['#0d0887',
-                '#41049d',
-                '#6a00a8',
-                '#8f0da4',
-                '#b12a90',
-                '#cc4778',
-                '#e16462',
-                '#f2844b',
-                '#fca636',
-                '#fcce25']
-    colormap.reverse()
 
     fig = px.scatter_mapbox(
                         df, 
@@ -157,6 +159,8 @@ def display_choropleth(domain):
                         'Proximity to non-supermarket food provision decile: %{customdata[5]}<br>'+\
                         'Food support for families decile: %{customdata[6]}<br>'+\
                         'Fuel poverty decile: %{customdata[7]}<br>'))
+    fig.update_traces(visible='legendonly', selector=(lambda x: int(x.name) > 1))
+    
     fig.update_geos(fitbounds="locations", visible=True)
     return fig
 
