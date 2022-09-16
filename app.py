@@ -5,6 +5,29 @@ import pandas as pd
 import numpy as np
 import json
 
+df = pd.read_csv('/data/priority_places_v1_1_decile_domains_WGS.csv',
+                    dtype={'domain_supermarket_proximity':'category',
+                        'domain_supermarket_transport':'category',
+                        'domain_ecommerce_access':'category',
+                        'domain_socio_demographic':'category',
+                        'domain_nonsupermarket_proximity':'category',
+                        'domain_food_for_families':'category',
+                        'domain_fuel_poverty':'category', 
+                        'combined': 'category'}
+)
+
+
+colormap = ['#0d0887',
+            '#41049d',
+            '#6a00a8',
+            '#8f0da4',
+            '#b12a90',
+            '#cc4778',
+            '#e16462',
+            '#f2844b',
+            '#fca636',
+            '#fcce25']
+
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Priority Places"
 server = app.server
@@ -45,9 +68,10 @@ app.layout = html.Div(style={
             html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales and Data Zones in Scotland (2011 boundaries). Each point on the map corresponds to a geographic area. 
                       Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings are a part of and not the building or residence itself."""),
             html.P("""
-                      The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index. 
-                      The map defaults to the composite Priority Places Index but each domain used to form the index can be explored via the drop down menu. Hovering over a point also provides the decile scores for each domain. 
-                      The data can be filtered by double-clicking on each legend point. For example, the highest priority neighbourhoods can be viewed by double-clicking the icon for the 1st decile in the legend.
+                      The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index.
+                      The map initially displays only the top 10% of places according to the composite Priority Places Index. Each domain used to form the index can be explored via the drop down menu. The other deciles can also be added to the map by clicking the coloured points on the legend.
+                      Hovering over a point also provides the decile scores for each domain. 
+                      
                   """),
             html.H5('Domain Definitions'), 
             html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
@@ -97,27 +121,6 @@ app.layout = html.Div(style={
     Output("graph", "figure"), 
     Input("domain", "value"))
 def display_choropleth(domain):
-    df = pd.read_csv('/data/priority_places_v1_0_decile_domains_WGS.csv',
-                     dtype={'domain_supermarket_proximity':'category',
-                            'domain_supermarket_transport':'category',
-                            'domain_ecommerce_access':'category',
-                            'domain_socio_demographic':'category',
-                            'domain_nonsupermarket_proximity':'category',
-                            'domain_food_for_families':'category',
-                            'domain_fuel_poverty':'category', 
-                            'combined': 'category'}
-    )
-    colormap = ['#0d0887',
-                '#41049d',
-                '#6a00a8',
-                '#8f0da4',
-                '#b12a90',
-                '#cc4778',
-                '#e16462',
-                '#f2844b',
-                '#fca636',
-                '#fcce25']
-    colormap.reverse()
 
     fig = px.scatter_mapbox(
                         df, 
@@ -157,6 +160,8 @@ def display_choropleth(domain):
                         'Proximity to non-supermarket food provision decile: %{customdata[5]}<br>'+\
                         'Food support for families decile: %{customdata[6]}<br>'+\
                         'Fuel poverty decile: %{customdata[7]}<br>'))
+    fig.update_traces(visible='legendonly', selector=(lambda x: int(x.name) > 1))
+    
     fig.update_geos(fitbounds="locations", visible=True)
     return fig
 
