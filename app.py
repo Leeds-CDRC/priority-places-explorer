@@ -68,9 +68,10 @@ app.layout = html.Div(style={
             html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales and Data Zones in Scotland (2011 boundaries). Each point on the map corresponds to a geographic area. 
                       Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings are a part of and not the building or residence itself."""),
             html.P("""
-                      The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index. 
-                      The map defaults to the composite Priority Places Index but each domain used to form the index can be explored via the drop down menu. Hovering over a point also provides the decile scores for each domain. 
-                      The data can be filtered by double-clicking on each legend point. For example, the highest priority neighbourhoods can be viewed by double-clicking the icon for the 1st decile in the legend.
+                      The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index.
+                      The map initially displays only the top 10% of places according to the composite Priority Places Index. Each domain used to form the index can be explored via the drop down menu. The other deciles can also be added to the map by clicking the coloured points on the legend.
+                      Hovering over a point also provides the decile scores for each domain. 
+                      
                   """),
             html.H5('Domain Definitions'), 
             html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
