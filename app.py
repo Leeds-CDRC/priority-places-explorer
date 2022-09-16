@@ -100,7 +100,7 @@ app.layout = html.Div(style={
                 html.Li("Proportion of population with no car access (UK Census 2011)"), 
                 html.Li("Proportion of population who are pensioners (UK Census 2011)"), 
                 html.Br(),
-            html.H6("Food support for families (16.7% of composite index)"),
+            html.H6("Need for family food support (16.7% of composite index)"),
                 html.Li("Free school meal eligibility"),
                 html.Li("Healthy start voucher usage (England and Wales only)"),
                 html.Li(["Distance to nearest food bank (", html.A("Give Food", href="https://www.givefood.org.uk/"), ", accessed 2022-08-19)"]),
