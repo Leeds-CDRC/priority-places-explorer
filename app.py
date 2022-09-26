@@ -85,6 +85,7 @@ app.layout = html.Div(style={
                       Hovering over a point also provides the decile scores for each domain. 
                       
                   """),
+            html.P(["""Supermarket and convenience store locations can be added to the map via the toggle switch. These locations are obtained from """, html.A("Geolytix Retail Points v24", href="https://geolytix.com/blog/supermarket-retail-points/"), "."]),
             html.H5('Domain Definitions'), 
             html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
                 html.Li("Average distance to nearest large grocery store (Geolytix Retail Points v15)"),
