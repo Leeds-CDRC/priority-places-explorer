@@ -1,4 +1,5 @@
 from dash import Dash, dcc, html, Input, Output
+import dash_daq as daq
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -16,17 +17,19 @@ df = pd.read_csv('/data/priority_places_v1_1_decile_domains_WGS.csv',
                         'combined': 'category'}
 )
 
+retailers = pd.read_csv('/data/retail_locations_glxv24_202206.csv')
 
 colormap = ['#0d0887',
             '#41049d',
             '#6a00a8',
             '#8f0da4',
             '#b12a90',
-            '#cc4778',
-            '#e16462',
-            '#f2844b',
-            '#fca636',
-            '#fcce25']
+            '#c94a79',
+            '#db6a68',
+            '#e58858',
+            '#e8a34a',
+            '#e1bf40']
+           
 
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Priority Places"
@@ -40,27 +43,36 @@ app.layout = html.Div(style={
     
     html.H4('CDRC Priority Places'),
     #html.P("Select a domain:"),
-    dcc.Dropdown(
-        id='domain', 
-        options=[{"label": "Priority Places Index", "value": "combined"},
-                 {"label": "Proximity to supermarket retail facilities", "value": "domain_supermarket_proximity"}, 
-                 {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
-                 {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
-                 {"label": "Proximity to non-supermarket food provision", "value": "domain_nonsupermarket_proximity"},
-                 {"label": "Socio-demographic barriers", "value": "domain_socio_demographic"}, 
-                 {"label": "Food support for families", "value": "domain_food_for_families"}, 
-                 {"label": "Fuel poverty", "value": "domain_fuel_poverty"}],
-        value='combined',
-        multi=False,
-        #style={'width': "100%"}
-    ),
-    html.Div(id='output_container', children=[]),
+    
+    html.Div(id='output_container', children=[
+        dcc.Dropdown(
+            id='domain', 
+            options=[{"label": "Priority Places Index", "value": "combined"},
+                    {"label": "Proximity to supermarket retail facilities", "value": "domain_supermarket_proximity"}, 
+                    {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
+                    {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
+                    {"label": "Proximity to non-supermarket food provision", "value": "domain_nonsupermarket_proximity"},
+                    {"label": "Socio-demographic barriers", "value": "domain_socio_demographic"}, 
+                    {"label": "Food support for families", "value": "domain_food_for_families"}, 
+                    {"label": "Fuel poverty", "value": "domain_fuel_poverty"}],
+            value='combined',
+            multi=False,
+            #style={'width': "100%"}
+        ),
+        daq.BooleanSwitch(
+            id='retailer_switch',
+            on=False,
+            label='Show supermarket locations',
+            labelPosition='top'
+        )
+    ]),
     html.Br(), 
-
-    dcc.Graph(id="graph", figure={}), 
-
+    dcc.Loading(
+            id="loading-1",
+            type="default",
+            children=dcc.Graph(id="graph", figure={}), 
+        ),
     html.Div(id='description', children=[
-
         html.Div(id='col1', children=[
             html.H5('How to use'), 
             html.P("""The CDRC Priority Places Index is a composite index formed of data compiled across seven different dimensions relating to food insecurity for England, Scotland, and Wales. 
@@ -119,9 +131,10 @@ app.layout = html.Div(style={
 
 @app.callback(
     Output("graph", "figure"), 
-    Input("domain", "value"))
-def display_choropleth(domain):
-
+    Input("domain", "value"), 
+    Input("retailer_switch", "on"))
+def display_map(domain, show_retailers):
+    
     fig = px.scatter_mapbox(
                         df, 
                         lat='latitude',
@@ -139,6 +152,7 @@ def display_choropleth(domain):
                                      'combined'],
                         center={'lat': 53.8067, 'lon': -1.5550}, 
                         category_orders={domain: ['1', '2', '3', '4', '5', '6', '7','8', '9', '10']})
+       
     fig.update_layout(mapbox_style='carto-positron')
     fig.update_layout(margin={'r':0, 't':0, 'l':0, 'b':0})
     fig.update_layout(legend=dict(
@@ -161,7 +175,24 @@ def display_choropleth(domain):
                         'Food support for families decile: %{customdata[6]}<br>'+\
                         'Fuel poverty decile: %{customdata[7]}<br>'))
     fig.update_traces(visible='legendonly', selector=(lambda x: int(x.name) > 1))
-    
+
+    if show_retailers:
+        
+        fig2 = px.scatter_mapbox(retailers, 
+                                 lat='lat_wgs', 
+                                 lon='long_wgs', 
+                                 custom_data=['retailer', 'size_code'],
+        )
+
+        fig.add_trace(fig2.data[0])
+        fig.update_traces(hovertemplate=(
+                                '<b>%{customdata[0]}</b><br>'+\
+                                'Size: %{customdata[1]}<br>'), 
+                        selector=10)
+
+        fig.data[10]['marker'] = {'color': '#808080', 'opacity':0.2}
+        fig.update_layout(coloraxis_showscale=False)
+
     fig.update_geos(fitbounds="locations", visible=True)
     return fig
 
