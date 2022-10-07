@@ -3,10 +3,8 @@ import dash_daq as daq
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
-import numpy as np
-import json
 
-df = pd.read_csv('/data/priority_places_v1_1_decile_domains_WGS.csv',
+df = pd.read_csv('/data/priority_places_v1_2_decile_domains_WGS.csv',
                     dtype={'domain_supermarket_proximity':'category',
                         'domain_supermarket_transport':'category',
                         'domain_ecommerce_access':'category',
@@ -83,45 +81,43 @@ app.layout = html.Div(style={
                       The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index.
                       The map initially displays only the top 10% of places according to the composite Priority Places Index. Each domain used to form the index can be explored via the drop down menu. The other deciles can also be added to the map by clicking the coloured points on the legend.
                       Hovering over a point also provides the decile scores for each domain. 
-                      
                   """),
+            html.P("""Data for all countries is included where possible, but some indicators are not available across all countries. The list of indiciators below lists the country availability."""),
             html.P(["""Supermarket and convenience store locations can be added to the map via the toggle switch. These locations are obtained from """, html.A("Geolytix Retail Points v24", href="https://geolytix.com/blog/supermarket-retail-points/"), "."]),
             html.H5('Domain Definitions'), 
             html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
-                html.Li("Average distance to nearest large grocery store (Geolytix Retail Points v15)"),
-                html.Li("Average count of stores within 1km (Geolytix Retail Points v15)"),
-                html.Br(), 
-            html.H6("Accessibility to supermarket retail facilities (12.5% of composite index)"),
-                html.Li("Average travel distance (based on a custom built spatial interaction model)"), 
-                html.Li("Accessibility via public transport (UK Govt Journey Time Statistics 2017 - 2020)"), 
+                html.Li("Average distance to nearest large grocery store (Geolytix Retail Points v15). E,S,W,NI"),
+                html.Li("Average count of stores within 1km (Geolytix Retail Points v15). E,S,W,NI"),
                 html.Br(), 
                   ], style={'padding': 10, 'flex': 1}),
         
         html.Div(id='col2', children=[
+            html.H6("Accessibility to supermarket retail facilities (12.5% of composite index)"),
+                html.Li("Average travel distance (based on a custom built spatial interaction model). E,S,W"), 
+                html.Li("Accessibility via public transport (Govt Journey Time Statistics 2017 - 2020). E,S,W"), 
+                html.Br(), 
             html.H6("Access to online deliveries (12.5% of composite index)"),
-                html.Li(["Online groceries availability (", html.A("Newing et. al, 2020", href="https://www.tandfonline.com/doi/full/10.1080/09593969.2021.2017321"), ")"]), 
-                html.Li(["Propensity to shop online (", html.A("CDRC Internet User Classification 2018", href="https://data.cdrc.ac.uk/dataset/internet-user-classification"), ")"]), 
+                html.Li(["Online groceries availability (", html.A("Newing et. al, 2020", href="https://www.tandfonline.com/doi/full/10.1080/09593969.2021.2017321"), ",). E,S,W"]), 
+                html.Li(["Propensity to shop online (", html.A("CDRC Internet User Classification 2018", href="https://data.cdrc.ac.uk/dataset/internet-user-classification"), "). E,S,W"]), 
                 html.Br(),
             html.H6("Proximity to non-supermarket food provision (12.5% of composite index)"), 
-                html.Li("Distance to nearest non-supermarket retail food store (Food Standards Agency, accessed 2022-08-23)"), 
-                html.Li("Count of non-supermarket retail food stores within 1km (Food Standards Agency, accessed 2022-08-23)"), 
-                html.Li(["Average distance to nearest market (", html.A("CDRC data from National Market Traders Federation 2016-2019", href="https://data.cdrc.ac.uk/dataset/national-market-traders-federation"), ")"]), 
-                html.Li(["Average count of markets within 1km (", html.A("CDRC data from National Market Traders Federation 2016-2019", href="https://data.cdrc.ac.uk/dataset/national-market-traders-federation"), ")"]), 
+                html.Li("Distance to nearest non-supermarket retail food store (Food Standards Agency, accessed 2022-08-23). E,S,W,NI"), 
+                html.Li("Count of non-supermarket retail food stores within 1km (Food Standards Agency, accessed 2022-08-23). E,S,W,NI"), 
+                html.Li(["Average distance to nearest market (", html.A("CDRC data from National Market Traders Federation 2016-2019", href="https://data.cdrc.ac.uk/dataset/national-market-traders-federation"), "). E,W."]), 
+                html.Li(["Average count of markets within 1km (", html.A("CDRC data from National Market Traders Federation 2016-2019", href="https://data.cdrc.ac.uk/dataset/national-market-traders-federation"), "). E,W"]), 
                 html.Br(),
             html.H6("Socio-economic barriers (16.7% of composite index)"),
-                html.Li("Proportion of population experiencing income deprivation (UK Govt Index of Multiple Deprivation 2019-2020)"), 
-                html.Li("Proportion of population with no car access (UK Census 2011)"), 
-                html.Li("Proportion of population who are pensioners (UK Census 2011)"), 
+                html.Li("Proportion of population experiencing income deprivation (UK Govt Index of Multiple Deprivation 2017-2020). E,S,W,NI"), 
+                html.Li("Proportion of population with no car access (UK Census 2011). E,S,W,NI"), 
                 html.Br(),
             html.H6("Need for family food support (16.7% of composite index)"),
-                html.Li("Free school meal eligibility"),
-                html.Li("Healthy start voucher usage (England and Wales only)"),
-                html.Li(["Distance to nearest food bank (", html.A("Give Food", href="https://www.givefood.org.uk/"), ", accessed 2022-08-19)"]),
-                html.Li(["Count of food banks within 1km (", html.A("Give Food", href="https://www.givefood.org.uk/"), ", accessed 2022-08-19)"]),
+                html.Li("Free school meal eligibility. E,S,W,NI"),
+                html.Li("Healthy start voucher usage (England and Wales only). E,W."),
+                html.Li(["Distance to nearest food bank (", html.A("Give Food", href="https://www.givefood.org.uk/"), ", accessed 2022-08-19). E,S,W,NI"]),
                 html.Br(),
             html.H6("Fuel Poverty (16.7% of composite index)"), 
-                html.Li("Proportion of households in fuel poverty (2017 - 2020)"), 
-                html.Li("Prepayment meter prevalence, 2017")
+                html.Li("Proportion of households in fuel poverty (2017 - 2020). E,S,W."), 
+                html.Li("Prepayment meter prevalence, 2017. E,S,W")
             ], style={'padding': 10, 'flex': 1})
         ], style={'display': 'flex', 'flex-direction': 'row'}), 
 
@@ -176,6 +172,9 @@ def display_map(domain, show_retailers):
                         'Food support for families decile: %{customdata[6]}<br>'+\
                         'Fuel poverty decile: %{customdata[7]}<br>'))
     fig.update_traces(visible='legendonly', selector=(lambda x: int(x.name) > 1))
+    fig.update_traces(visible=False, selector=(lambda x: x.name=='-1'))
+
+
 
     if show_retailers:
         

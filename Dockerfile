@@ -7,4 +7,4 @@ ADD requirements.txt /app/
 RUN pip install -r requirements.txt
 ADD . /app/
 
-CMD [ "gunicorn", "--workers=5", "--threads=1", "-b 0.0.0.0:8000", "app:server"]
+CMD [ "gunicorn", "--workers=5", "--threads=1", "--timeout=600", "-b 0.0.0.0:8000", "app:server"]
