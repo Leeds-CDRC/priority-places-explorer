@@ -15,6 +15,11 @@ df = pd.read_csv('/data/priority_places_v1_2_decile_domains_WGS.csv',
                         'combined': 'category'}
 )
 
+
+df['label_domain_supermarket_transport'] = df.loc[:, 'domain_supermarket_transport'].replace('-1', 'NA')
+df['label_domain_ecommerce_access'] = df.loc[:, 'domain_ecommerce_access'].replace('-1', 'NA')
+df['label_domain_fuel_poverty'] = df.loc[:, 'domain_fuel_poverty'].replace('-1', 'NA')
+
 retailers = pd.read_csv('/data/retail_locations_glxv24_202206.csv')
 
 colormap = ['#0d0887',
@@ -122,7 +127,6 @@ html.Div(id='description', children=[
     ], style={'display': 'flex', 'flex-direction': 'row'}), 
 
 dcc.Markdown('''\nPriority Places is developed by the ESRC-funded [Consumer Data Research Centre](https://cdrc.ac.uk/) at the University of Leeds\n''', style={'text-align': 'center'}),
-
                     ])
     
 
@@ -140,12 +144,12 @@ def display_map(domain, show_retailers):
                         color_discrete_sequence=colormap,
                         custom_data=['geo_code', 
                                         'domain_supermarket_proximity',
-                                        'domain_supermarket_transport',
-                                        'domain_ecommerce_access',
+                                        'label_domain_supermarket_transport',
+                                        'label_domain_ecommerce_access',
                                         'domain_socio_demographic',
                                         'domain_nonsupermarket_proximity',
                                         'domain_food_for_families',
-                                        'domain_fuel_poverty',
+                                        'label_domain_fuel_poverty',
                                         'combined'],
                         center={'lat': 53.8067, 'lon': -1.5550}, 
                         category_orders={domain: ['1', '2', '3', '4', '5', '6', '7','8', '9', '10']})
@@ -161,16 +165,17 @@ def display_map(domain, show_retailers):
     ))
     fig.update_layout(legend_title_text='Decile (1 = highest priority)')
 
+
     fig.update_traces(hovertemplate=(
-                        '<b>Geo Code</b>: %{customdata[0]}<br>'+\
-                        'Priority Places Index decile: %{customdata[8]}<br>'+\
-                        'Proximity to supermarket retail facilities decile: %{customdata[1]}<br>'+\
-                        'Accessibility to supermarket retail facilties decile: %{customdata[2]}<br>'+\
-                        'Access to online deliveries decile: %{customdata[3]}<br>'+\
-                        'Socio-demographic barriers decile: %{customdata[4]}<br>'+\
-                        'Proximity to non-supermarket food provision decile: %{customdata[5]}<br>'+\
-                        'Food support for families decile: %{customdata[6]}<br>'+\
-                        'Fuel poverty decile: %{customdata[7]}<br>'))
+                        str('<b>Geo Code</b>: %{customdata[0]}<br>')+\
+                        str('Priority Places Index decile: %{customdata[8]}<br>')+\
+                        str('Proximity to supermarket retail facilities decile: %{customdata[1]}<br>')+\
+                        str('Accessibility to supermarket retail facilties decile: %{customdata[2]}<br>').replace('-1', 'NA')+\
+                        str('Access to online deliveries decile: %{customdata[3]}<br>').replace('-1', 'NA')+\
+                        str('Proximity to non-supermarket food provision decile: %{customdata[5]}<br>')+\
+                        str('Socio-demographic barriers decile: %{customdata[4]}<br>')+\
+                        str('Food support for families decile: %{customdata[6]}<br>')+\
+                        str('Fuel poverty decile: %{customdata[7]}<br>').replace('-1', 'NA')))
     fig.update_traces(visible='legendonly', selector=(lambda x: int(x.name) > 1))
     fig.update_traces(visible=False, selector=(lambda x: x.name=='-1'))
 
