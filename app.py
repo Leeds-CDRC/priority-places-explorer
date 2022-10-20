@@ -38,6 +38,40 @@ app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Priority Places"
 server = app.server
 
+
+########################################################################
+#
+#  For Google Analytics
+#
+########################################################################
+app.index_string = """<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-246336486-1"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-246336486-1');
+        </script>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>"""
+
+
 app.layout = html.Div(style={
                     'height': '100vh', 
                     'padding': 10, 
@@ -128,7 +162,6 @@ html.Div(id='description', children=[
 
 dcc.Markdown('''\nPriority Places is developed by the ESRC-funded [Consumer Data Research Centre](https://cdrc.ac.uk/) at the University of Leeds\n''', style={'text-align': 'center'}),
                     ])
-    
 
 @app.callback(
 Output("graph", "figure"), 
