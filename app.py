@@ -169,7 +169,7 @@ html.Div(id='description', children=[
         ], style={'padding': 10, 'flex': 1})
     ], style={'display': 'flex', 'flex-direction': 'row'}), 
 
-dcc.Markdown('''\nPriority Places is developed by the ESRC-funded [Consumer Data Research Centre](https://cdrc.ac.uk/) at the University of Leeds\n''', style={'text-align': 'center'}),
+dcc.Markdown('''\nPriority Places is developed by the ESRC-funded [Consumer Data Research Centre](https://cdrc.ac.uk/) at the University of Leeds in collaboration with [Which?](https://which.co.uk)\n''', style={'text-align': 'center'}),
 html.Div([
         html.A('Privacy and Cookies', href="https://www.cdrc.ac.uk/privacy/")
 ], style={'textAlign': 'center'}),
