@@ -1,6 +1,5 @@
 FROM python:3.9-slim
 
-COPY data /data
 RUN mkdir /app
 WORKDIR /app
 ADD requirements.txt /app/

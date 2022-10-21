@@ -3,8 +3,13 @@ import dash_daq as daq
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
+import base64
 
-df = pd.read_csv('/data/priority_places_v1_2_decile_domains_WGS.csv',
+def encode_image(image_file):
+    encoded = base64.b64encode(open(image_file, 'rb').read())
+    return 'data:image/jpg;base64,{}'.format(encoded.decode())
+
+df = pd.read_csv('/app/data/priority_places_v1_2_decile_domains_WGS.csv',
                     dtype={'domain_supermarket_proximity':'category',
                         'domain_supermarket_transport':'category',
                         'domain_ecommerce_access':'category',
@@ -20,7 +25,7 @@ df['label_domain_supermarket_transport'] = df.loc[:, 'domain_supermarket_transpo
 df['label_domain_ecommerce_access'] = df.loc[:, 'domain_ecommerce_access'].replace('-1', 'NA')
 df['label_domain_fuel_poverty'] = df.loc[:, 'domain_fuel_poverty'].replace('-1', 'NA')
 
-retailers = pd.read_csv('/data/retail_locations_glxv24_202206.csv')
+retailers = pd.read_csv('/app/data/retail_locations_glxv24_202206.csv')
 
 colormap = ['#0d0887',
             '#41049d',
@@ -71,6 +76,8 @@ app.index_string = """<!DOCTYPE html>
     </body>
 </html>"""
 
+#pil_image = Image.open("assets/CDRC-logo.jpg")
+
 
 app.layout = html.Div(style={
                     'height': '100vh', 
@@ -78,8 +85,10 @@ app.layout = html.Div(style={
                     }, 
                     children=[
 
-html.H4('CDRC Priority Places'),
-#html.P("Select a domain:"),
+html.A(html.Img(src=encode_image('assets/CDRC-logo.png'), height=75), href="https://www.cdrc.ac.uk/"),
+html.Br(),
+html.Br(),
+html.H4('Priority Places for Food'),
 
 html.Div(id='output_container', children=[
     dcc.Dropdown(
@@ -161,7 +170,11 @@ html.Div(id='description', children=[
     ], style={'display': 'flex', 'flex-direction': 'row'}), 
 
 dcc.Markdown('''\nPriority Places is developed by the ESRC-funded [Consumer Data Research Centre](https://cdrc.ac.uk/) at the University of Leeds\n''', style={'text-align': 'center'}),
-                    ])
+html.Div([
+        html.A(html.Img(src=encode_image('/app/assets/UoL-logo.jpg'), height=75), href="https://www.leeds.ac.uk/")
+], style={'textAlign': 'center'}),
+               ])
+
 
 @app.callback(
 Output("graph", "figure"), 
