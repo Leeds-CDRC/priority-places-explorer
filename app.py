@@ -49,32 +49,32 @@ server = app.server
 #  For Google Analytics
 #
 ########################################################################
-# app.index_string = """<!DOCTYPE html>
-# <html>
-#     <head>
-#         <!-- Google tag (gtag.js) -->
-#         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-246336486-1"></script>
-#         <script>
-#         window.dataLayer = window.dataLayer || [];
-#         function gtag(){dataLayer.push(arguments);}
-#         gtag('js', new Date());
-
-#         gtag('config', 'UA-246336486-1');
-#         </script>
-#         {%metas%}
-#         <title>{%title%}</title>
-#         {%favicon%}
-#         {%css%}
-#     </head>
-#     <body>
-#         {%app_entry%}
-#         <footer>
-#             {%config%}
-#             {%scripts%}
-#             {%renderer%}
-#         </footer>
-#     </body>
-# </html>"""
+app.index_string = """<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src=https://www.googletagmanager.com/gtag/js?id=G-RX2QQXY46F>
+        </script> 
+        <script> 
+        window.dataLayer = window.dataLayer || []; 
+        function gtag(){dataLayer.push(arguments);} 
+        gtag('js', new Date()); 
+        gtag('config', 'G-RX2QQXY46F'); 
+        </script>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>"""
 
 #pil_image = Image.open("assets/CDRC-logo.jpg")
 
@@ -85,7 +85,10 @@ app.layout = html.Div(style={
                     }, 
                     children=[
 
-html.A(html.Img(src=encode_image('assets/CDRC-logo.png'), height=75), href="https://www.cdrc.ac.uk/"),
+html.Div(id='logos', children=[
+html.Div(id='left-logo', children=[html.A(html.Img(src=encode_image('assets/CDRC-logo.png'), height=75), href="https://www.cdrc.ac.uk/")]),
+# html.Div(id='right-logo', children=[html.A(html.Img(src=encode_image('assets/Which-logo-small.png'), height=75), href="https://www.which.co.uk/")], style={'textAlign': 'right'})
+                    ], style={'display': 'flex', 'flex-direction': 'row'}),
 html.Br(),
 html.Br(),
 html.H4('Priority Places for Food'),
