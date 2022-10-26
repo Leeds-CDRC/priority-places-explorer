@@ -85,10 +85,11 @@ app.layout = html.Div(style={
                     }, 
                     children=[
 
-html.Div(id='logos', children=[
-html.Div(id='left-logo', children=[html.A(html.Img(src=encode_image('assets/CDRC-logo.png'), height=75), href="https://www.cdrc.ac.uk/")]),
+#html.Div(id='logos', children=[
+#html.Div(id='left-logo', children=[    
+html.A(html.Img(src=encode_image('assets/CDRC-logo.png'), height=75), href="https://www.cdrc.ac.uk/"),
 # html.Div(id='right-logo', children=[html.A(html.Img(src=encode_image('assets/Which-logo-small.png'), height=75), href="https://www.which.co.uk/")], style={'textAlign': 'right'})
-                    ], style={'display': 'flex', 'flex-direction': 'row'}),
+#                    ], style={'display': 'flex', 'flex-direction': 'row'}),
 html.Br(),
 html.Br(),
 html.H4('Priority Places for Food'),
@@ -126,14 +127,15 @@ html.Div(id='description', children=[
         html.H5('How to use'), 
         html.P("""The CDRC Priority Places Index is a composite index formed of data compiled across seven different dimensions relating to food insecurity for England, Scotland, Wales, and Northern Ireland. 
                     Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food."""),
-        html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales, Data Zones in Scotland and Super Output Areas in Northern Ireland (2011 boundaries). Each point on the map corresponds to a geographic area. 
-                    Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings are a part of and not the building or residence itself."""),
+        html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales, Data Zones in Scotland and Super Output Areas in Northern Ireland (2011 boundaries). 
+                  Data for all countries is included where possible, but some indicators are not available across all countries. The list of indicators below lists the country availability (E=England, S=Scotland, W=Wales, NI=Northern Ireland)."""),
+        html.P("""Each point on the map corresponds to a geographic area. Any points coinciding with geographical features such as buildings or residences are reflective of the neighbourhood in which those buildings are a part of and not the building or residence itself."""),
         html.P("""
                     The map displays deciles of the composite index so that each color represents a different 10% increment of the ranked neighbourhoods. That is, those neighbourhoods marked with decile 1 are in the top 10% of Priority Places according to the index.
                     The map initially displays only the top 10% of places according to the composite Priority Places Index. Each domain used to form the index can be explored via the drop down menu. The other deciles can also be added to the map by clicking the coloured points on the legend.
                     Hovering over a point also provides the decile scores for each domain. 
                 """),
-        html.P("""Data for all countries is included where possible, but some indicators are not available across all countries. The list of indiciators below lists the country availability."""),
+        html.P("""Technical documentation for the index construction is available via the CDRC Data Portal (Note: link TBC)."""),
         html.P(["""Supermarket and convenience store locations can be added to the map via the toggle switch. These locations are obtained from """, html.A("Geolytix Retail Points v24", href="https://geolytix.com/blog/supermarket-retail-points/"), "."]),
         html.H5('Domain Definitions'), 
         html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
