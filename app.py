@@ -81,7 +81,8 @@ app.index_string = """<!DOCTYPE html>
 
 app.layout = html.Div(
     style={'height': '100vh', 
-           'padding': 10}, 
+           'padding': 10,
+           'overflow': 'scroll'}, 
     children=[
         ### Top banner
         dbc.Row([
