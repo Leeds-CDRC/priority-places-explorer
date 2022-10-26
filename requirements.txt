@@ -9,7 +9,7 @@ Babel==2.9.1
 backcall==0.2.0
 beautifulsoup4==4.11.1
 bleach==4.1.0
-dash-bootstrap-components
+dash-bootstrap-components==1.2.1
 Bottleneck==1.3.5
 Brotli==1.0.9
 brotlipy==0.7.0
