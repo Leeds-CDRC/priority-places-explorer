@@ -11,7 +11,7 @@ def encode_image(image_file):
 
 df = pd.read_csv('/app/data/priority_places_v1_3_decile_domains_WGS.csv',
                     dtype={'domain_supermarket_proximity':'category',
-                        'domain_supermarket_transport':'category',
+                        'domain_supermarket_accessibility':'category',
                         'domain_ecommerce_access':'category',
                         'domain_socio_demographic':'category',
                         'domain_nonsupermarket_proximity':'category',
@@ -21,7 +21,7 @@ df = pd.read_csv('/app/data/priority_places_v1_3_decile_domains_WGS.csv',
 )
 
 
-df['label_domain_supermarket_transport'] = df.loc[:, 'domain_supermarket_transport'].replace('-1', 'NA')
+df['label_domain_supermarket_accessibility'] = df.loc[:, 'domain_supermarket_accessibility'].replace('-1', 'NA')
 df['label_domain_ecommerce_access'] = df.loc[:, 'domain_ecommerce_access'].replace('-1', 'NA')
 df['label_domain_fuel_poverty'] = df.loc[:, 'domain_fuel_poverty'].replace('-1', 'NA')
 
@@ -125,7 +125,7 @@ app.layout = html.Div(
                     options=[
                         {"label": "Priority Places for Food Index", "value": "combined"},
                         {"label": "Proximity to supermarket retail facilities", "value": "domain_supermarket_proximity"}, 
-                        {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
+                        {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_accessibility"}, 
                         {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
                         {"label": "Proximity to non-supermarket food provision", "value": "domain_nonsupermarket_proximity"},
                         {"label": "Socio-demographic barriers", "value": "domain_socio_demographic"}, 
@@ -292,7 +292,7 @@ def display_map(domain, show_retailers):
                         color_discrete_sequence=colormap,
                         custom_data=['geo_code', 
                                         'domain_supermarket_proximity',
-                                        'label_domain_supermarket_transport',
+                                        'label_domain_supermarket_accessibility',
                                         'label_domain_ecommerce_access',
                                         'domain_socio_demographic',
                                         'domain_nonsupermarket_proximity',
