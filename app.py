@@ -9,7 +9,7 @@ def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/jpg;base64,{}'.format(encoded.decode())
 
-df = pd.read_csv('/app/data/priority_places_v1_2_decile_domains_WGS.csv',
+df = pd.read_csv('/app/data/priority_places_v1_3_decile_domains_WGS.csv',
                     dtype={'domain_supermarket_proximity':'category',
                         'domain_supermarket_transport':'category',
                         'domain_ecommerce_access':'category',
