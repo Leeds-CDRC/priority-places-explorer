@@ -176,7 +176,7 @@ app.layout = html.Div(
                                       Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food."""),
                             html.P("""It is developed at the geographic level of Lower Super Output Areas in England and Wales, Data Zones in Scotland and Super Output Areas in Northern Ireland (2011 boundaries). 
                                       Data for all countries is included where possible, but some indicators are not available across all countries. The list of indicators in the domain definitions section below lists the country availability (E=England, S=Scotland, W=Wales, NI=Northern Ireland)."""),
-                            html.P("""Technical documentation for the index construction is available via the CDRC Data Portal (link TBC)."""),
+                            html.P("""Technical documentation for the index construction is available via the CDRC Data Portal (https://data.cdrc.ac.uk/dataset/priority-places-food-index)."""),
                         ],
                         title='What is the Priority Places for Food Index?'
                     ),
