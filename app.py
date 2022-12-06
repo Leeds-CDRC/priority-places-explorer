@@ -9,21 +9,21 @@ def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/jpg;base64,{}'.format(encoded.decode())
 
-df = pd.read_csv('/app/data/priority_places_v1_2_decile_domains_WGS.csv',
-                    dtype={'domain_supermarket_proximity':'category',
-                        'domain_supermarket_transport':'category',
-                        'domain_ecommerce_access':'category',
-                        'domain_socio_demographic':'category',
-                        'domain_nonsupermarket_proximity':'category',
-                        'domain_food_for_families':'category',
-                        'domain_fuel_poverty':'category', 
-                        'combined': 'category'}
+df = pd.read_csv('/app/data/priority_places_Oct2022_WGS.csv',
+                    dtype={'pp_dec_domain_supermarket_proximity':'category',
+                        'pp_dec_domain_supermarket_accessibility':'category',
+                        'pp_dec_domain_ecommerce_access':'category',
+                        'pp_dec_domain_socio_demographic':'category',
+                        'pp_dec_domain_nonsupermarket_proximity':'category',
+                        'pp_dec_domain_food_for_families':'category',
+                        'pp_dec_domain_fuel_poverty':'category', 
+                        'pp_dec_combined': 'category'}
 )
 
 
-df['label_domain_supermarket_transport'] = df.loc[:, 'domain_supermarket_transport'].replace('-1', 'NA')
-df['label_domain_ecommerce_access'] = df.loc[:, 'domain_ecommerce_access'].replace('-1', 'NA')
-df['label_domain_fuel_poverty'] = df.loc[:, 'domain_fuel_poverty'].replace('-1', 'NA')
+df['label_domain_supermarket_transport'] = df.loc[:, 'pp_dec_domain_supermarket_accessibility'].replace('0', 'NA')
+df['label_domain_ecommerce_access'] = df.loc[:, 'pp_dec_domain_ecommerce_access'].replace('0', 'NA')
+df['label_domain_fuel_poverty'] = df.loc[:, 'pp_dec_domain_fuel_poverty'].replace('0', 'NA')
 
 retailers = pd.read_csv('/app/data/retail_locations_glxv24_202206.csv')
 
@@ -123,16 +123,16 @@ app.layout = html.Div(
                 dcc.Dropdown(
                     id='domain', 
                     options=[
-                        {"label": "Priority Places for Food Index", "value": "combined"},
-                        {"label": "Proximity to supermarket retail facilities", "value": "domain_supermarket_proximity"}, 
-                        {"label": "Accessibility to supermarket retail facilties", "value": "domain_supermarket_transport"}, 
-                        {"label": "Access to online deliveries", "value": "domain_ecommerce_access"}, 
-                        {"label": "Proximity to non-supermarket food provision", "value": "domain_nonsupermarket_proximity"},
-                        {"label": "Socio-demographic barriers", "value": "domain_socio_demographic"}, 
-                        {"label": "Need for family food support", "value": "domain_food_for_families"}, 
-                        {"label": "Fuel poverty", "value": "domain_fuel_poverty"}
+                        {"label": "Priority Places for Food Index", "value": "pp_dec_combined"},
+                        {"label": "Proximity to supermarket retail facilities", "value": "pp_dec_domain_supermarket_proximity"}, 
+                        {"label": "Accessibility to supermarket retail facilties", "value": "pp_dec_domain_supermarket_accessibility"}, 
+                        {"label": "Access to online deliveries", "value": "pp_dec_domain_ecommerce_access"}, 
+                        {"label": "Proximity to non-supermarket food provision", "value": "pp_dec_domain_nonsupermarket_proximity"},
+                        {"label": "Socio-demographic barriers", "value": "pp_dec_domain_socio_demographic"}, 
+                        {"label": "Need for family food support", "value": "pp_dec_domain_food_for_families"}, 
+                        {"label": "Fuel poverty", "value": "pp_dec_domain_fuel_poverty"}
                     ],
-                    value='combined',
+                    value='pp_dec_combined',
                     multi=False,
                 ),
                 dbc.Row([
@@ -299,15 +299,16 @@ def display_map(domain, show_retailers):
                         lon='longitude', 
                         color=domain, 
                         color_discrete_sequence=colormap,
-                        custom_data=['geo_code', 
-                                        'domain_supermarket_proximity',
-                                        'label_domain_supermarket_transport',
-                                        'label_domain_ecommerce_access',
-                                        'domain_socio_demographic',
-                                        'domain_nonsupermarket_proximity',
-                                        'domain_food_for_families',
-                                        'label_domain_fuel_poverty',
-                                        'combined'],
+                        custom_data=['geo_label', 
+                                     'pp_dec_domain_supermarket_proximity',
+                                     'label_domain_supermarket_transport',
+                                     'label_domain_ecommerce_access',
+                                     'pp_dec_domain_socio_demographic',
+                                     'pp_dec_domain_nonsupermarket_proximity',
+                                     'pp_dec_domain_food_for_families',
+                                     'label_domain_fuel_poverty',
+                                     'pp_dec_combined', 
+                                     'geo_code'],
                         center={'lat': 53.8067, 'lon': -1.5550}, 
                         category_orders={domain: ['1', '2', '3', '4', '5', '6', '7','8', '9', '10']})
         
@@ -324,7 +325,7 @@ def display_map(domain, show_retailers):
 
 
     fig.update_traces(hovertemplate=(
-                        str('<b>Geo Code</b>: %{customdata[0]}<br>')+\
+                        str('<b>%{customdata[0]} (%{customdata[9]})</b><br>')+\
                         str('Priority Places Index decile: %{customdata[8]}<br>')+\
                         str('Proximity to supermarket retail facilities decile: %{customdata[1]}<br>')+\
                         str('Accessibility to supermarket retail facilties decile: %{customdata[2]}<br>').replace('-1', 'NA')+\
