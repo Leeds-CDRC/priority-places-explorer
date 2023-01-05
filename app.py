@@ -9,6 +9,7 @@ def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/jpg;base64,{}'.format(encoded.decode())
 
+
 df = pd.read_csv('/app/data/priority_places_Oct2022_WGS.csv',
                     dtype={'pp_dec_domain_supermarket_proximity':'category',
                         'pp_dec_domain_supermarket_accessibility':'category',
@@ -24,6 +25,7 @@ df = pd.read_csv('/app/data/priority_places_Oct2022_WGS.csv',
 df['label_domain_supermarket_transport'] = df.loc[:, 'pp_dec_domain_supermarket_accessibility'].replace('0', 'NA')
 df['label_domain_ecommerce_access'] = df.loc[:, 'pp_dec_domain_ecommerce_access'].replace('0', 'NA')
 df['label_domain_fuel_poverty'] = df.loc[:, 'pp_dec_domain_fuel_poverty'].replace('0', 'NA')
+
 
 retailers = pd.read_csv('/app/data/retail_locations_glxv24_202206.csv')
 
