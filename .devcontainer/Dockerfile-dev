@@ -1,0 +1,4 @@
+FROM python:3.9-slim
+RUN pip install dash plotly pandas dash_bootstrap_components
+
+
