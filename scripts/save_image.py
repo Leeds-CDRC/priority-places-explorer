@@ -1,6 +1,10 @@
 import pandas as pd
 import plotly.express as px
 
+"""
+This script implements the same plotly express map as used in the priority places explorer 
+tool but uses the plotly write_image function to save a static image to the desired location.
+"""
 
 df = pd.read_csv('data/priority_places_Oct2022_WGS.csv',
                     dtype={'pp_dec_domain_supermarket_proximity':'category',
