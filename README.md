@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/531442027.svg)](https://zenodo.org/badge/latestdoi/531442027)
+
 # Priority Places Explorer
 
 The [Priority Places Explorer](https://priorityplaces.cdrc.ac.uk/) is a tool developed by the [CDRC](https://www.cdrc.ac.uk/) in partnership with [Which?](https://www.which.co.uk/) for visual analysis of the [Priority Places for Food Index](https://data.cdrc.ac.uk/dataset/priority-places-food-index/) to help identify local areas who are most at risk of food insecurity in the context of increases in the cost of living. 
