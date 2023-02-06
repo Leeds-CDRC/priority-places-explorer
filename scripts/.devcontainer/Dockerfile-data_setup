@@ -1,0 +1,7 @@
+FROM continuumio/miniconda3
+RUN useradd -ms /bin/bash condauser
+USER condauser
+# geopandas is fussy if we don't give it a dedicated 
+# env. To activate the env, we need to start a bash 
+# shell.
+RUN conda create -n pp-env -c conda-forge geopandas jupyterlab seaborn ipykernel
