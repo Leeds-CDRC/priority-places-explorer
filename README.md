@@ -17,12 +17,11 @@ With support from:
 - Robyn Naisbitt
 - The team at [Which?](https://www.which.com/)
 
+The Priority Places for Food Index has been developed by the Consumer Data Research Centre at the University of Leeds in collaboration with Which?. Data used in the development of the index is released under [Open Government License v3](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). We also acknowledge data provided by the Consumer Data Research Centre, an ESRC Data Investment ES/L011840/1; ES/L011891/1. [Internet User Classification](https://data.cdrc.ac.uk/dataset/internet-user-classification) data by Alexiou, A. and Singleton, A. (2018) contains Ofcom data (2016) and CDRC data from Data Partners (2017). We also acknowledge the [E-Food Desert Index](https://data.cdrc.ac.uk/dataset/e-food-desert-index/), developed by Newing and Videira (2020).
 
 ## License
 
-This visualisation tool is released under a permissive MIT license, permitting the 
-use, distribution and modification of the tool. This allows organisations to develop their own versions of the tool, for example with internal datasets visualised on top of the Priority Places for Food Index. If you do use this tool for internal purposes and to inform decision-making of some kind, then please let us know at info@cdrc.ac.uk.
-
+This visualisation tool is released under a permissive MIT license, permitting the use, distribution and modification of the tool. This allows organisations to develop their own versions of the tool, for example with internal datasets visualised on top of the Priority Places for Food Index. If you do use this tool for internal purposes and to inform decision-making of some kind, then please let us know at info@cdrc.ac.uk.
 
 ## Setup (with Docker)
 
