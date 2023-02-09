@@ -4,10 +4,12 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 import pandas as pd
 import base64
+import os
 
 def encode_image(image_file):
     encoded = base64.b64encode(open(image_file, 'rb').read())
     return 'data:image/jpg;base64,{}'.format(encoded.decode())
+
 
 
 df = pd.read_csv('/app/data/priority_places_Oct2022_WGS.csv',
@@ -45,40 +47,10 @@ app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Priority Places"
 server = app.server
 
-
-########################################################################
-#
-#  For Google Analytics
-#
-########################################################################
-app.index_string = """<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Google tag (gtag.js) -->
-        <script async src=https://www.googletagmanager.com/gtag/js?id=G-RX2QQXY46F>
-        </script> 
-        <script> 
-        window.dataLayer = window.dataLayer || []; 
-        function gtag(){dataLayer.push(arguments);} 
-        gtag('js', new Date()); 
-        gtag('config', 'G-RX2QQXY46F'); 
-        </script>
-        {%metas%}
-        <title>{%title%}</title>
-        {%favicon%}
-        {%css%}
-    </head>
-    <body>
-        {%app_entry%}
-        <footer>
-            {%config%}
-            {%scripts%}
-            {%renderer%}
-        </footer>
-    </body>
-</html>"""
-
-#pil_image = Image.open("assets/CDRC-logo.jpg")
+# Add google analytics tag if the website hostname environment variable matches
+if os.getenv('WEBSITE_HOSTNAME')=='priority-places-explorer.azurewebsites.net':
+    with open('ga.html','r') as f:
+        app.index_string = f.read()
 
 
 app.layout = html.Div(
@@ -360,4 +332,4 @@ def display_map(domain, show_retailers):
     return fig
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()
