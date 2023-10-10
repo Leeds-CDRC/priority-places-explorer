@@ -185,8 +185,23 @@ app.layout = html.Div(
                     dbc.AccordionItem(
                         [
                             html.H6("Proximity to supermarket retail facilities (12.5% of composite index)"),
-                            html.Li("Average distance to nearest large grocery store (Geolytix Retail Points v15). E,S,W,NI"),
-                            html.Li("Average count of stores within 1km (Geolytix Retail Points v15). E,S,W,NI"),
+                            html.Li([
+                                "Average distance to nearest large grocery store (",
+                                html.A(
+                                    "Geolytix Retail Points v15",
+                                    href="https://geolytix.com/blog/supermarket-retail-points/",
+                                ),
+                                "). E,S,W,NI"
+                            ]),
+                            html.Br(),
+                            html.Li([
+                                "Average count of stores within 1km (",
+                                html.A(
+                                    "Geolytix Retail Points v15",
+                                    href="https://geolytix.com/blog/supermarket-retail-points/",
+                                ),
+                                "). E,S,W,NI"
+                            ]),
                             html.Br(),
                             html.H6("Accessibility to supermarket retail facilities (12.5% of composite index)"),
                             html.Li("Average travel distance (based on a custom built spatial interaction model). E,S,W"), 
