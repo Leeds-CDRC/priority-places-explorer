@@ -193,7 +193,6 @@ app.layout = html.Div(
                                 ),
                                 "). E,S,W,NI"
                             ]),
-                            html.Br(),
                             html.Li([
                                 "Average count of stores within 1km (",
                                 html.A(
